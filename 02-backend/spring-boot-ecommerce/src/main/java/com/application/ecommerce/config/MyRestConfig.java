@@ -12,16 +12,16 @@ import com.application.ecommerce.entity.ProductCategory;
 public class MyRestConfig implements RepositoryRestConfigurer {
     @Override
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
-        HttpMethod[] theUnsupportedActions={HttpMethod.DELETE,HttpMethod.POST,HttpMethod.PUT};
+        HttpMethod[] theUnsupportedAction={HttpMethod.DELETE,HttpMethod.POST,HttpMethod.PUT};
         config.getExposureConfiguration()
                 .forDomainType(Product.class)
-               .withItemExposure(((metdata, httpMethods) -> httpMethods.disable(theUnsupportedActions)))
-                .withCollectionExposure(((metdata, httpMethods) -> httpMethods.disable(theUnsupportedActions)));
+               .withItemExposure(((metdata, httpMethods) -> httpMethods.disable(theUnsupportedAction)))
+                .withCollectionExposure(((metdata, httpMethods) -> httpMethods.disable(theUnsupportedAction)));
 
         config.getExposureConfiguration()
                 .forDomainType( ProductCategory.class)
-                .withItemExposure(((metdata, httpMethods) -> httpMethods.disable(theUnsupportedActions)))
-                .withCollectionExposure(((metdata, httpMethods) -> httpMethods.disable(theUnsupportedActions)));
+                .withItemExposure(((metdata, httpMethods) -> httpMethods.disable(theUnsupportedAction)))
+                .withCollectionExposure(((metdata, httpMethods) -> httpMethods.disable(theUnsupportedAction)));
 
     }
 }
