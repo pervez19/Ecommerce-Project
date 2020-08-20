@@ -22,6 +22,7 @@ export class ProductListComponent implements OnInit {
   listProducts()
   {
     const hasCategoryId:boolean=this.route.snapshot.paramMap.has('id');
+    console.log(hasCategoryId);
     if(hasCategoryId)
     {
       this.currentCategoryId=+this.route.snapshot.paramMap.get('id');
