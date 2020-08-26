@@ -6,8 +6,9 @@ import { Subject, of } from 'rxjs';
   providedIn: 'root'
 })
 export class CartService {
+ 
 
-  cardItems: CartItem[]=[];
+  cartItems: CartItem[]=[];
 
   totalPrice: Subject<Number>= new Subject<Number>();
   totalQuantity: Subject<Number>= new Subject<Number>();
@@ -19,10 +20,10 @@ export class CartService {
     let alreadyExistsInCart:boolean=false;
     let existingCartItem:CartItem=undefined;
 
-    if(this.cardItems.length>0)
+    if(this.cartItems.length>0)
     {
       
-      existingCartItem=this.cardItems.find(tempCartItem => tempCartItem.id === theCardItem.id);
+      existingCartItem=this.cartItems.find(tempCartItem => tempCartItem.id === theCardItem.id);
 
       alreadyExistsInCart=(existingCartItem!=undefined);
     }
@@ -33,7 +34,7 @@ export class CartService {
     }
     else
     {
-      this.cardItems.push(theCardItem);
+      this.cartItems.push(theCardItem);
     }
 
 
@@ -45,7 +46,7 @@ export class CartService {
     let totalPriceValue:number = 0;
     let totalQuantityValue:number = 0;
 
-    for(let currentCartItem of this.cardItems)
+    for(let currentCartItem of this.cartItems)
     {
       totalPriceValue += currentCartItem.quantity * currentCartItem.unitPrice;
       totalQuantityValue += currentCartItem.quantity;
@@ -54,12 +55,27 @@ export class CartService {
     this.totalPrice.next(totalPriceValue);
     this.totalQuantity.next(totalQuantityValue);
 
-    this.logCartData(totalPriceValue,totalQuantityValue);
-
-
-
   }
-  logCartData(totalPriceValue: number, totalQuantityValue: number) {
-    throw new Error("Method not implemented.");
+  decrementQuentity(theCartItem: CartItem) {
+    
+    theCartItem.quantity--;
+    if(theCartItem.quantity==0)
+    {
+      this.remove(theCartItem);
+    }
+    else{
+      this.computeCartTotals();
+    }
   }
+  remove(theCartItem: CartItem) {
+    
+    const itemIndex = this.cartItems.findIndex( tempCartItem => tempCartItem.id === theCartItem.id );
+
+    if (itemIndex > -1) {
+      this.cartItems.splice(itemIndex, 1);
+
+      this.computeCartTotals();
+    }
+  }
+
 }
