@@ -9,6 +9,7 @@ import { ProductCategory } from '../common/product-category';
   providedIn: 'root'
 })
 export class ProductService {
+ 
 
   private baseUrl='http://localhost:8080/api/products';
 
@@ -23,6 +24,14 @@ export class ProductService {
   }
 
 
+  getProductListPaginate(thePage:number,
+                          thePageSize:number,
+                          theCategoryId:number):Observable<GetResponseProducts>{
+    const searchUrl = `${this.baseUrl}/search/findByCategoryId?id=${theCategoryId}`
+                    +`&page=${thePage}&size=${thePageSize}`;
+    return this.httpClient.get<GetResponseProducts>(searchUrl);
+ }
+ 
   getProductCategory():Observable<ProductCategory[]> {
       return this.httpClient.get< GetResponseProductCategory>(this.categoryUrl).pipe(
       map(response=>response._embedded.productCategory)
@@ -36,17 +45,37 @@ export class ProductService {
     return this.getProducts(searchUrl);
   }
 
+  searchProductsPaginate(thePage:number,
+                        thePageSize:number,
+                        theKeyWord: string):Observable<GetResponseProducts>{
+
+const searchUrl=`${this.baseUrl}/search/findByNameContainingIgnoreCase?name=${theKeyWord}`
+                 +`&page=${thePage}&size=${thePageSize}`;
+
+return this.httpClient.get<GetResponseProducts>(searchUrl);
+}
 
   private getProducts(searchUrl: string): Observable<Product[]> {
     return this.httpClient.get<GetResponseProducts>(searchUrl).pipe(
       map(response => response._embedded.products)
     );
   }
+
+  getProduct(theProductId: number):Observable<Product> {
+    const productUrl=`${this.baseUrl}/${theProductId}`;
+    return this.httpClient.get<Product>(productUrl);
+  }
   
 }
 interface GetResponseProducts{
   _embedded: {
     products:Product[];
+  }
+  page:{
+    size: number;
+    totalElements:number;
+    totalPages:number;
+    number:number;
   }
 }
 
