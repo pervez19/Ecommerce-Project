@@ -10,10 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @CrossOrigin
 public interface ProductRepository extends JpaRepository<Product,Long> {
-    /**
-     * @param id
-     * @param pageable
-     * @return
-     */
+
     Page<Product> findByCategoryId(@RequestParam("id") Long id, Pageable pageable);
+    Page<Product> findByNameContaining(@RequestParam("name") String name, Pageable pageable);
+    Page<Product> findByNameContainingIgnoreCase(@RequestParam("name") String name, Pageable pageable);
 }
