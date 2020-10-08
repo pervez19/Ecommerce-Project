@@ -5,6 +5,7 @@ import { Country } from 'src/app/common/country';
 import { State } from 'src/app/common/state';
 import { CartDetailsComponent } from '../cart-details/cart-details.component';
 import { AponMartValidators } from 'src/app/validators/apon-mart-validators';
+import { CartService } from 'src/app/services/cart.service';
 
 @Component({
   selector: 'app-checkout',
@@ -14,7 +15,7 @@ import { AponMartValidators } from 'src/app/validators/apon-mart-validators';
 export class CheckoutComponent implements OnInit {
 
   checkoutFormGroup: FormGroup;
-  totalPrice: Number = 0;
+  totalPrice: Number = 0.0;
   totalQuantity: Number = 0;
 
   creditCardYears: number[] = [];
@@ -29,9 +30,12 @@ export class CheckoutComponent implements OnInit {
 
 
   constructor(private formBuilder: FormBuilder,
-              private aponMartFormService:AponMartFormService) { }
+              private aponMartFormService:AponMartFormService,
+              private cartService:CartService) { }
 
   ngOnInit(): void {
+
+    this.updateCartStatus();
 
     this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
@@ -188,4 +192,23 @@ export class CheckoutComponent implements OnInit {
       }
     );
   }
+
+
+  updateCartStatus()
+  {
+   
+    this.cartService.totalPrice.subscribe(
+      data => this.totalPrice = data
+    );
+
+    this.cartService.totalQuantity.subscribe(
+      data => this.totalQuantity = data
+    );
+
+    this.cartService.computeCartTotals();
+
+    
+    console.log("this.totalPrice = "+this.totalPrice);
+  }
+
 }

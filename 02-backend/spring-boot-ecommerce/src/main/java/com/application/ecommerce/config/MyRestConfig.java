@@ -1,9 +1,5 @@
 package com.application.ecommerce.config;
 
-import com.application.ecommerce.entity.Country;
-import com.application.ecommerce.entity.Product;
-import com.application.ecommerce.entity.ProductCategory;
-import com.application.ecommerce.entity.State;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
@@ -32,10 +28,10 @@ public class MyRestConfig implements RepositoryRestConfigurer {
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
         HttpMethod[] theUnsupportedAction={HttpMethod.DELETE,HttpMethod.POST,HttpMethod.PUT};
 
-        disableHttpMethods(State.class,config, theUnsupportedAction);
-        disableHttpMethods(Country.class,config, theUnsupportedAction);
-        disableHttpMethods(ProductCategory.class,config, theUnsupportedAction);
-        disableHttpMethods(Product.class,config, theUnsupportedAction);
+//        disableHttpMethods(State.class,config, theUnsupportedAction);
+//        disableHttpMethods(Country.class,config, theUnsupportedAction);
+//        disableHttpMethods(ProductCategory.class,config, theUnsupportedAction);
+//        disableHttpMethods(Product.class,config, theUnsupportedAction);
 
         exposeIds(config);
     }

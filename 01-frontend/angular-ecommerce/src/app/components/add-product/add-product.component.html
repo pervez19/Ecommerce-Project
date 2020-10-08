@@ -1,0 +1,171 @@
+
+<div class="main-content">
+
+  <nav class="navbar navbar-expand-sm bg-dark navbar-dark">  
+      <ul class="navbar-nav">  
+        <li class="nav-item ">  
+          <a routerLink="/view-products" class="nav-link" class="btn btn-primary active" role="button" >View Product</a>  
+        </li>   
+        <li class="nav-item">  
+          <a  routerLink="/add-product" class="nav-link" class="btn btn-primary active" role="button" >Add Product</a>  
+        </li> 
+        <li class="nav-item">  
+          <a  routerLink="/view-category" class="nav-link" class="btn btn-primary active" role="button" >View Category</a>  
+        </li> 
+        <li class="nav-item">  
+          <a  routerLink="/add-category" class="nav-link" class="btn btn-primary active" role="button" >Add Category</a>  
+        </li>             
+      </ul>  
+  </nav>  
+
+  <div class="section-content section-content-p30">
+      <div class="container-fluid">
+
+
+
+
+
+        <h1 style="text-align: center"> Create Product</h1><br>
+<div class="row">  
+  <div class="col-sm-4"></div>  
+    <div [hidden]="submitted" style="width: 400px;">  
+
+      
+        
+          <!-- <form
+          *ngIf="!isSuccessful"
+          name="form"
+          (ngSubmit)="f.form.valid && onSubmit()"
+          #f="ngForm"
+          novalidate>
+
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input
+              type="text"
+              class="form-control"
+              name="username"
+              [(ngModel)]="form.username"
+              required
+              minlength="3"
+              maxlength="20"
+              #username="ngModel"
+            />
+          </div>
+
+         
+        <div class="alert alert-warning" *ngIf="f.submitted && isSignUpFailed">
+          Signup failed!<br />{{ errorMessage }}
+        </div>
+      </form> -->
+
+
+
+
+          <form [formGroup]="productsaveform" #saveproduct (ngSubmit)="saveProduct(saveProduct)"> 
+
+
+
+          <div class="form-group">  
+            <label for="name">Product Name</label>  
+            <input type="text" class="form-control"  formControlName="name" data-toggle="tooltip" data-placement="right" title="Enter Product Name" >  
+            <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger"> 
+              <span *ngIf="name.errors.required">Product Name is Required</span>                  
+            </div>  
+          </div>  
+
+          <div class="form-group">  
+            <label for="branch">Product Category</label>  
+              <select class="form-control" formControlName="category" data-toggle="tooltip"   
+                    data-placement="right" title="Select Student Branch">  
+                <option  *ngFor= "let tempProductCategory of productCategory" [ngValue]="tempProductCategory">{{tempProductCategory.categoryName}}</option>   
+              </select>  
+              <div *ngIf="category.invalid && (category.dirty || category.touched)" class="alert alert-danger"> 
+                <span *ngIf="category.errors.required">Product category is Required</span>                  
+              </div>
+         </div> 
+
+
+          <div class="form-group">  
+            <label for="name">Product description</label>  
+            <textarea class="form-control"  formControlName="description" >  </textarea>
+            <div *ngIf="description.invalid && (description.dirty || description.touched)" class="alert alert-danger"> 
+              <span *ngIf="description.errors.required">Product description is Required</span>                  
+            </div>  
+          </div>  
+
+          <div class="form-group">  
+            <label for="name">Product sku</label>  
+            <input type="text" class="form-control"  formControlName="sku" data-toggle="tooltip"data-placement="right" title="Enter Product sku" >  
+            <div *ngIf="sku.invalid && (sku.dirty ||sku.touched)" class="alert alert-danger"> 
+              <span *ngIf="sku.errors.required">Product sku is Required</span>                  
+            </div>  
+          </div>  
+
+          <div class="form-group">  
+            <label for="name">Product unitInStock</label>  
+            <input type="number" class="form-control"  formControlName="unitInStock" >  
+            <div *ngIf="unitInStock.invalid && (unitInStock.dirty || unitInStock.touched)" class="alert alert-danger"> 
+                <span *ngIf="unitInStock.errors.required">Product unitInStock is Required</span>                  
+              </div>  
+          </div>  
+          
+          <div class="form-group">  
+            <label for="name">Product unitPrice</label>  
+            <input type="number" class="form-control"  formControlName="unitPrice">  
+            <div *ngIf="unitPrice.invalid && (unitPrice.dirty || unitPrice.touched)" class="alert alert-danger"> 
+              <span *ngIf="unitPrice.errors.required">Product unitPrice is Required</span>                  
+            </div>  
+          </div>  
+
+          <!-- <div class="form-group">  
+            <label for="name">Product Active</label>  
+            <input type="checkbox"  formControlName="active" value="1"  checked>  
+            <label for="active">True</label>
+            <input type="checkbox" formControlName="active"  data-toggle="tooltip" data-placement="right" value="0">  
+            <label for="active">False</label>
+          </div>   -->
+
+          <div class="form-group">
+          <p>Product Active :</p>
+          <input type="radio" formControlName="active" value=true checked>
+          <label for="male">True</label><br>
+          <input type="radio" formControlName="active" value=false>
+          <label for="female">false</label>
+
+          <div *ngIf="active.invalid && (active.dirty || active.touched)" class="alert alert-danger"> 
+            <span *ngIf="active.errors.required">Product active is Required</span>                  
+          </div>
+          </div>
+
+        
+
+
+
+
+
+
+
+          <button type="submit" class="btn btn-success">Submit</button>  
+        </form>  
+    
+
+  </div>  
+</div>  
+<div class="col-sm-4"></div>  
+
+
+<div class="row">  
+
+    <div class="col-sm-4"></div>  
+    <div class="col-sm-9">  
+        <div [hidden]="!submitted">  
+          <h4>Product Added SuccessFully!</h4>  
+          <button (click)="addProductForm()" class='btn btn-primary'>Add More Product</button>  
+        </div>        
+    </div>  
+
+    <div class="col-sm-4"></div>  
+
+</div>  
+

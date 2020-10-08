@@ -1,0 +1,283 @@
+
+
+  <h1 style="text-align: center">Products</h1><br>  
+
+  
+<div class="footer-pagination">
+  <div class="row">
+    <div class="col-md-6"></div>
+    <div class="col-md-6">
+      <div class="row">
+        <div class="col-md-9" style="padding-left: 30%;">
+              
+          <ngb-pagination [(page)]="thePageNumber"
+                                  [pageSize]="thePageSize"
+                                  [collectionSize]="theTotalElements"
+                                  [maxSize]="5"
+                                  [boundaryLinks]="true"
+                                  (pageChange)="listProducts()">
+           </ngb-pagination>
+        </div>
+
+        <div class="col-md-3 mt-2" style="text-align: right;">
+                  
+          <span class="mr-2">Page Size</span>
+          <select (change)="updatePageSize($event.target.value)" >
+            <option selected="true" > 5</option>
+            <option> 10</option>
+            <option> 20</option>
+            <option> 50</option>
+            <option> 100</option>
+          </select>
+                  
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row" [hidden]="!deleteMessage">  
+         
+  <div class="col-sm-4"></div>  
+   
+     <!-- <div class="alert alert-info alert-dismissible">  
+       <button type="button" class="close" data-dismiss="alert">×</button>  
+        <strong>Product Data Deleted</strong>  
+     </div>   -->
+    
+   <div class="col-sm-4"></div>  
+ </div> 
+
+<div class="modal-content"> 
+    <table class="table table-hover table-sm">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Description</th>
+          <th scope="col">Active</th>
+          <th scope="col">Stock keeping-unit</th>
+          <th scope="col">Unit in Stock</th>
+          <th scope="col">Unit Price</th>
+          <!-- <th scope="col">Category</th> -->
+          <th scope="col">Create Date</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of products">
+          <td>{{product.name}}</td>
+          <td style=" width:360px">{{product.description}}</td>
+          <td>{{product.active}}</td>
+          <td>{{product.sku}}</td>
+          <td>{{product.unitInStock}}</td>
+          <td>{{product.unitPrice}}</td>
+         
+          <td>{{product.dateCreated | date:'yyyy/MM/dd'}}</td>
+          <td>
+            <button  (click)="openModal(template)"   (click)=" updateProduct(product.id) " data-toggle="modal" data-target="#myModal"  class="btn btn-success btn-sm rounded-0 fa fa-edit" title="Edit"></button>
+            <button (click)="openModal(template2, product.id)"   class="btn btn-danger btn-sm rounded-0 fa fa-trash" type="button" data-toggle="tooltip"  title="Delete"> </button>
+            <!-- (click)="deleteProduct(product.id)" -->
+            <!-- <button (click)="deleteProduct(product.id)"class="btn btn-danger btn-sm">
+              <span class="oi oi-trash"></span>
+            </button>
+            <button (click)=" updateProduct(product.id)" class='btn btn-info btn-sm'  
+            data-toggle="modal" data-target="#myModal">
+              <span class="oi oi-trash"></span>
+            </button>  -->
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+ 
+</div>
+
+      
+    <!-- <div class="panel-body">  
+        <table  class="table table-hover table-sm" datatable [dtOptions]="dtOptions"  
+        [dtTrigger]="dtTrigger"  >  
+            <thead class="thead-light">  
+                <tr>  
+                    <th>Student Name</th>  
+                    <th>Student Email</th>  
+                    <th>Student Branch</th>  
+                    <th>Action</th>  
+                      
+                </tr>  
+            </thead>  
+            <tbody>  
+                 <tr *ngFor="let student of students ">  
+                    <td>{{student.student_name}}</td>  
+                    <td>{{student.student_email}}</td>  
+                    <td>{{student.student_branch}}</td>  
+                    <td><button (click)="deleteStudent(student.student_id)" class='btn btn-primary'><i class="fa fa-futboll-0">Delete</i></button>   
+                      <button (click)="updateStudent(student.student_id)" class='btn btn-info'  
+                      data-toggle="modal" data-target="#myModal">Update</button>  
+                    </td>  
+                  </tr>   
+            </tbody><br>  
+        </table>  
+    </div>  
+  </div>    -->
+    
+
+<!-- <div class="main-content">
+-->
+<ng-template #template2>
+ 
+    
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title"> Delete Product </h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+      </button>
+      </div>
+      
+      <!-- Modal body -->
+      <div class="modal-body">
+        <p>Are you sure you want to delete product?</p>
+      </div>
+      
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <div class="clearfix">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="modalRef.hide()">Cancel</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="deleteProduct(productData)" (click)="modalRef.hide()">Delete</button>
+        </div>
+      </div>
+      
+    
+</ng-template>
+
+
+
+<ng-template #template>
+
+  <div class="modal-header">
+    <h1 style="text-align: center">Update Products</h1><br>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+  <div class="modal-body">
+
+
+    <div class="modal-dialog">  
+      <div class="modal-content">   
+
+          <form [formGroup]="productupdateform" #updstu (ngSubmit)="updatePro(updstu)">  
+              <!-- Modal Header -->  
+              
+             <!-- Modal body -->  
+               <div class="modal-body"  >  
+                  <div [hidden]="isupdated">  
+    
+                            <input type="hidden" class="form-control"  formControlName="id" [(ngModel)]="productlist.id">  
+                              <div class="form-group">  
+                                  <label for="name">Product Name</label>  
+                                  <input type="text" class="form-control"  formControlName="name" [(ngModel)]="productlist.name"  >  
+                              </div>  
+                        
+                              <div class="form-group">  
+                                  <label for="name">Product description</label>  
+                                  <textarea class="form-control" formControlName="description" [(ngModel)]="productlist.description">  </textarea>
+                              </div>  
+
+                              <div class="form-group">  
+                                <label for="branch">Current Product Category Name :</label>  
+                              
+                                <label for="name"> {{Pcategory.categoryName}}</label> 
+                              
+                              </div> 
+
+
+                              <div class="form-group">  
+                                <label for="branch">Changed Product Category ? </label>  
+                                  <select class="form-control" formControlName="category" data-toggle="tooltip"   
+                                        data-placement="right" title="Select Student Branch" >  
+                                   
+                                    <option  *ngFor= "let tempProductCategory of productCategory" [ngValue]="tempProductCategory">{{tempProductCategory.categoryName}}</option>   
+                                  </select>  
+                              </div> 
+                             
+
+                         
+
+                              <div class="form-group">  
+                                <label for="name">Product sku</label>  
+                                <input type="text" class="form-control"  formControlName="sku" [(ngModel)]="productlist.sku"  >  
+                            </div>  
+                      
+                             
+
+                            <div class="form-group">  
+                              <label for="name">Product unitInStock</label>  
+                              <input type="number" class="form-control"  formControlName="unitInStock" [(ngModel)]="productlist.unitInStock"  >  
+                          </div>  
+                    
+                        
+                          <div class="form-group">  
+                            <label for="name">Product unitPrice</label>  
+                            <input type="number" class="form-control"  formControlName="unitPrice" [(ngModel)]="productlist.unitPrice"  >  
+                        </div>  
+                  
+                       
+                        <p>Product Active :</p>
+                        <input type="radio" formControlName="active" value=true checked>
+                        <label for="male">True</label><br>
+                        <input type="radio" formControlName="active" value=false>
+                        <label for="female">false</label>
+
+
+                
+                        <!-- <div class="form-group">  
+                          <label for="name">Product Active : </label><br> 
+                          <div class="custom-control custom-checkbox mb-3">
+                          <input type="checkbox"  formControlName="active" value="1"  checked>  
+                          <label for="active"> True</label>
+                          </div>
+                          <div class="custom-control custom-checkbox mb-3">
+                          <input type="checkbox" formControlName="active"   value="0"  >  
+                          <label for="active"> False</label>
+                          </div>
+                        </div>  -->
+
+
+                      <div class="form-group">  
+                        <input type="hidden" class="form-control"  formControlName="imageUrl" [(ngModel)]="productlist.imageUrl"  >  
+                    </div>  
+
+                 
+                  <div class="form-group">  
+                    <input type="hidden" class="form-control"  formControlName="dateCreated" [(ngModel)]="productlist.dateCreated"  >  
+                </div> 
+                            
+                
+
+                  <div [hidden]="!isupdated">  
+                        <h4>Product Detail Updated!</h4>  
+                  </div>          
+                        
+              </div>  
+              </div>
+              <!-- Modal footer -->  
+              <div class="modal-footer" >  
+                <button type="submit" class="btn btn-success" [hidden]="isupdated">Update</button>  
+    
+              </div>  
+                
+            
+          </form>  
+     </div>  
+   </div>  
+  
+
+
+<!--</div> -->
+
+
+
+       
+    </div>
+</ng-template>

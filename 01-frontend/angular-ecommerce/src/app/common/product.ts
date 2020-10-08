@@ -1,5 +1,8 @@
+import { ProductCategory } from './product-category';
+
 export class Product {
 	private _id: string;
+  
 	public get id(): string {
 		return this._id;
 	}
@@ -69,4 +72,14 @@ export class Product {
 	public set lastUpdate(value: Date) {
 		this._lastUpdate = value;
 	}
+
+	private _category: ProductCategory;
+	public get category():  ProductCategory {
+		return this._category;
+	}
+	public set category(value:  ProductCategory) {
+		this._category = value;
+	}
+
+
 }

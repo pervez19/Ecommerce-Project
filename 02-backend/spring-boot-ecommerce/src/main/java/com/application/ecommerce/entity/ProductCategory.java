@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,7 +22,63 @@ public class ProductCategory {
 	
 	@Column(name="CATEGORY_NAME")
 	private String categoryName;
-	
+
+
 	@OneToMany(mappedBy="category",cascade=CascadeType.ALL)
 	private List<Product> products;
+
+
+	public ProductCategory()
+	{
+
+	}
+	public ProductCategory(String categoryName)
+	{
+	this.categoryName=categoryName;
+	}
+
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+
+	public List<Product> getProducts() {
+		return products;
+	}
+
+	public void setProducts(List<Product> products) {
+		this.products = products;
+	}
+
+	@Override
+	public String toString() {
+		return "ProductCategory{" +
+				"id=" + id +
+				", categoryName='" + categoryName + '\'' +
+				", products=" + products +
+				'}';
+	}
+
+
+	public void add(Product product)
+	{
+		if( products==null)
+		{
+			products=new ArrayList<Product>();
+		}
+		products.add(product);
+		product.setCategory(this);
+	}
 }
